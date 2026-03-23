@@ -2,7 +2,7 @@ import { IsBoolean, IsDate, IsEmail, IsOptional, IsString } from "class-validato
 
 export class CreateUserDto {
     
-    id:number
+
     
     @IsString()
     name:string 
@@ -14,7 +14,7 @@ export class CreateUserDto {
     isActive:boolean
     
     
-    createdAt:Date
+    
 
 
 }

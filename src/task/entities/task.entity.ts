@@ -2,7 +2,7 @@ import { User } from "src/users/entities/user.entity";
 import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
-export class Tasks {
+export class Task {
 
     @PrimaryGeneratedColumn()
         id: number
@@ -17,7 +17,7 @@ export class Tasks {
         completed: boolean
     
     @ManyToOne(() => User, user => user.tasks)
-        userId: User
+        user: User
         
     @CreateDateColumn()
         createdAt: Date

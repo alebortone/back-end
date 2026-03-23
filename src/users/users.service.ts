@@ -10,7 +10,7 @@ export class UsersService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
-  ){}
+  ) { }
 
   async create(userDto: CreateUserDto) {
     const newUser = this.userRepository.create(userDto)
@@ -22,28 +22,32 @@ export class UsersService {
   }
 
   async findOne(id: number) {
-    const user = await this.userRepository.findOneBy({id});
-    if (!user){
+    const user = await this.userRepository.findOneBy({ id });
+    if (!user) {
       throw new NotFoundException(`Usuario com ID ${id} não encontrado`);
-    }else{
+    } else {
       return user;
     }
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
-    await this.findOne(id);
-    await this.userRepository.update(id, updateUserDto);
-    return this.findOne(id);
+    const up = await this.findOne(id);
+    if (!up) {
+      throw new NotFoundException(`Usuario com ID ${id} não encontrado`);
+    } else {
+      await this.userRepository.update(id, updateUserDto);
+      return this.findOne(id);
+    }
   }
 
   async remove(id: number) {
-  const user = await this.userRepository.findOneBy({ id });
+    const user = await this.userRepository.findOneBy({ id });
 
-  if (!user) {
-    throw new NotFoundException(`Usuario com ID ${id} não encontrado`);
+    if (!user) {
+      throw new NotFoundException(`Usuario com ID ${id} não encontrado`);
+    }
+
+    await this.userRepository.delete(id);
   }
 
-  await this.userRepository.delete(id);
-}
-  
 }
