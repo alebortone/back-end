@@ -10,6 +10,8 @@ export class UsersService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
+
+    
   ) { }
 
   async create(userDto: CreateUserDto) {
@@ -47,7 +49,9 @@ export class UsersService {
       throw new NotFoundException(`Usuario com ID ${id} não encontrado`);
     }
 
-    await this.userRepository.delete(id);
+    await this.userRepository.softDelete(id);
+    
+    
   }
 
 }

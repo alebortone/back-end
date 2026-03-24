@@ -1,5 +1,5 @@
 import { Task } from "src/task/entities/task.entity";
-import { Column, CreateDateColumn, Entity, JoinTable, OneToMany, PrimaryGeneratedColumn, } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinTable, OneToMany, PrimaryGeneratedColumn, } from "typeorm";
 
 @Entity()
 export class User {
@@ -21,6 +21,10 @@ export class User {
 
     @OneToMany(() => Task, task => task.user)
     tasks: Task[]
+
+    @DeleteDateColumn() 
+    deletedAt: Date;
+
 
 }
 

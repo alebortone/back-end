@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -20,12 +20,13 @@ export class TaskService {
     const user = await this.usersRepository.findOneBy({ id: createTaskDto.userId });
 
     if (!user) {
-      throw new Error(`Usuario nao enconstrado `);
+      throw new NotFoundException(`Usuario nao encontrado vagabundo`);
     }
 
     const newTask = this.tasksRepository.create({ ...createTaskDto, user })
-    return await this.tasksRepository.save(newTask);
-  }
+    await this.tasksRepository.save(newTask);
+    return `Tarefa criada com sucesso! Titulo: ${createTaskDto.title}`;
+    }
 
   async findAll() {
 
@@ -40,7 +41,7 @@ export class TaskService {
     const task = await this.tasksRepository.findOneBy({ id })
 
     if (!task) {
-      throw new Error(`Tarefa com ID ${id} nao encontrada `);
+      throw new NotFoundException(`Tarefa com ID ${id} nao encontrada `);
     }else {
       await this.tasksRepository.update(id, updateTaskDto);
       return this.findOne(id);
@@ -49,9 +50,9 @@ export class TaskService {
   async remove(id: number) {
     const task = await this.tasksRepository.findOneBy({ id })
     if (!task){
-      throw new Error('Tarefa não encontrada')
+      throw new NotFoundException('Tarefa não encontrada')
     }else{
-      await this.tasksRepository.delete(id);
+      await this.tasksRepository.softDelete(id);
     }
   }
 }
