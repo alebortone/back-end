@@ -11,6 +11,6 @@ export class CreateTaskDto {
   @IsBoolean() @IsNotEmpty()
   completed: boolean;
   
-  @IsNumber() @IsNotEmpty()
-  userId: number;
+  @IsString() @IsNotEmpty()
+  userId: string;
 }

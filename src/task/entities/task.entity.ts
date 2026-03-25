@@ -17,7 +17,7 @@ export class Task {
     completed: boolean
 
     @Column({nullable: true})
-    userId: number
+    userId: string
 
     @ManyToOne(() => User, user => user.tasks)
     user: User

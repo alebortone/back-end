@@ -10,6 +10,9 @@ export class CreateUserDto {
     @IsEmail() @IsNotEmpty()
     email:string
 
+    @IsString() @IsNotEmpty()
+    password:string
+
     @IsBoolean() @IsNotEmpty()
     isActive:boolean
     

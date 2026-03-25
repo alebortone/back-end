@@ -4,14 +4,17 @@ import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinTable, OneToMan
 @Entity()
 export class User {
 
-    @PrimaryGeneratedColumn()
-    id: number
+    @PrimaryGeneratedColumn("uuid")
+    id: string
 
     @Column()
     name: string
 
     @Column({unique:true})
     email: string
+
+    @Column()
+    password: string
 
     @Column()
     isActive: boolean
@@ -24,7 +27,6 @@ export class User {
 
     @DeleteDateColumn() 
     deletedAt: Date;
-
 
 }
 

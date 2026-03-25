@@ -20,10 +20,10 @@ export class TaskService {
     const user = await this.usersRepository.findOneBy({ id: createTaskDto.userId });
 
     if (!user) {
-      throw new NotFoundException(`Usuario nao encontrado vagabundo`);
+      throw new NotFoundException(`Usuario nao encontrado`);
     }
 
-    const newTask = this.tasksRepository.create({ ...createTaskDto, user })
+    const newTask:CreateTaskDto = this.tasksRepository.create({ ...createTaskDto, user })
     await this.tasksRepository.save(newTask);
     return `Tarefa criada com sucesso! Titulo: ${createTaskDto.title}`;
     }

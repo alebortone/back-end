@@ -1,7 +1,11 @@
-import { Controller, Get, Post, Body, Param, Delete, Put } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Put, UseGuards } from '@nestjs/common';
 import { TaskService } from './task.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
+import { AuthGuard } from 'src/auth/auth.guard';
+
+
+@UseGuards(AuthGuard)
 
 @Controller('task')
 export class TaskController {
@@ -24,7 +28,7 @@ export class TaskController {
 
   @Put(':id')
   update(@Param('id') id: number, @Body() updateTaskDto: UpdateTaskDto) {
-    return this.taskService.update(+id, updateTaskDto);
+    return this.taskService.update(id, updateTaskDto);
   }
 
   @Delete(':id')
