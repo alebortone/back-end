@@ -1,5 +1,7 @@
+import { PROPERTY_DEPS_METADATA } from "@nestjs/common/constants";
+import { Exclude } from "class-transformer";
 import { Task } from "src/task/entities/task.entity";
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinTable, OneToMany, PrimaryGeneratedColumn, } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, } from "typeorm";
 
 @Entity()
 export class User {
@@ -13,6 +15,7 @@ export class User {
     @Column({unique:true})
     email: string
 
+    
     @Column({select: false})
     password: string
 

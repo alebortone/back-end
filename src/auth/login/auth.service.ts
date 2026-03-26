@@ -1,17 +1,17 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { AuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from 'src/users/users.service';
 import { compareSync as brcyptCompareSync } from 'bcrypt';
 import { ConfigService } from '@nestjs/config';
 
+
+//Classe que junto com o passport local valida o se o usuario esta no banco de dados, e foi passado a informação correta
 @Injectable()
 export class AuthService {
   private jtwExpirationTimeInSeconds: number
-  
-  constructor( 
-    
+
+  constructor(
+
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService
@@ -20,20 +20,29 @@ export class AuthService {
   }
 
 
-
-  async singIn(email:string, password:string) {
+  async validateUser(email: string, pass: string) {
     const foundUser = await this.usersService.findByUserEmail(email);
 
-    if(!foundUser || !brcyptCompareSync(password, foundUser.password)){
-      throw new UnauthorizedException(`Email ou senha invalidos`);
+    if (!foundUser || !brcyptCompareSync(pass, foundUser.password)) {
+      return null
     }
+    const { password, ...result } = foundUser;
+    return result;
 
-    const payload = {sub: foundUser.id, email: foundUser.email}
-    
-    const token = this.jwtService.sign(payload)
+  }
+  async  signIn(user: { id: string; email: string }) {
 
-    return { token, expiresIn: this.jtwExpirationTimeInSeconds }
+    const payload = {
+      sub: user.id,
+      email: user.email
+    };
+
+    return {
+      access_token: this.jwtService.sign(payload),
+      expiresIn: this.jtwExpirationTimeInSeconds
+    };
   }
 
 
 }
+

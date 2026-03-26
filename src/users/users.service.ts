@@ -12,32 +12,34 @@ export class UsersService {
     @InjectRepository(User)
     private userRepository: Repository<User>,
 
-    
+
   ) { }
 
   async create(userDto: CreateUserDto) {
     const userAux = await this.findByUserEmail(userDto.email)
 
     if (userAux) {
-      throw new ConflictException(`Usuario ${userDto.email} ja existe`)
+      throw new ConflictException(`Usuario "${userDto.email}" ja existe`)
     }
 
     const newUser = this.userRepository.create(userDto);
     newUser.password = bcryptHashSync(userDto.password, 10)
-    return await this.userRepository.save( newUser );
+    await this.userRepository.save(newUser);
+
+    const { password, ...userCreated } = newUser;
+    return userCreated;
   }
 
-  async findByUserEmail( email:string){
-    const userFound = await this.userRepository.findOne({ where: { email } });
+  async findByUserEmail(email: string) {
+    const userFound = await this.userRepository.findOne({
+      where: { email },
+      select: ['id', 'email', 'password'], 
+    });
 
     if (!userFound) {
       return null;
     }
-    return{
-      id: userFound.id,
-      email: userFound.email,
-      password: userFound.password
-    }
+    return userFound;
   }
 
   async findAll() {
@@ -71,8 +73,8 @@ export class UsersService {
     }
 
     await this.userRepository.softDelete(id);
-    
-    
+
+
   }
 
 }

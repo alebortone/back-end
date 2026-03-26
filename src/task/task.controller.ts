@@ -2,10 +2,11 @@ import { Controller, Get, Post, Body, Param, Delete, Put, UseGuards } from '@nes
 import { TaskService } from './task.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
-import { AuthGuard } from 'src/auth/auth.guard';
+import { JwtAuthGuard } from 'src/auth/passport_jwt/jwt-auth.guard';
 
 
-@UseGuards(AuthGuard)
+
+
 
 @Controller('task')
 export class TaskController {
