@@ -7,7 +7,7 @@ import { JwtAuthGuard } from 'src/auth/passport_jwt/jwt-auth.guard';
 
 
 
-
+@UseGuards(JwtAuthGuard)
 @Controller('task')
 export class TaskController {
   constructor(private readonly taskService: TaskService) {}

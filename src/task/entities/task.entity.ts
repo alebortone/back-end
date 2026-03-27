@@ -25,6 +25,6 @@ export class Task {
     @CreateDateColumn()
     createdAt: Date
 
-    @DeleteDateColumn() 
+    @DeleteDateColumn({select: false}) 
     deletedAt: Date;
 }
