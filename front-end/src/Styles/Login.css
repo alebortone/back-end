@@ -1,0 +1,46 @@
+body{
+    padding: 0;
+    margin: 0;
+}
+
+.container{
+    
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    background-image: url(C:\Trabalho\Atv_inicio_mgCode\meu-app-react\src\assets\imagem_fundo_login.png);
+}
+
+.taskCadastro{
+
+    display: flex;
+    height: 500px;
+    width: 400px;
+    background-color: rgba(255, 255, 255, 0.241);
+    border-radius: 15px;
+    box-shadow: 0 0 4px 0px white;
+
+}
+
+.formUser{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+input,
+button{
+
+    width: 75%;
+    height: 30px;
+    border: 0px;
+    border-radius: 20px;
+    box-shadow: 0 0 2px 0 black;
+}
+

@@ -1,0 +1,34 @@
+# Dependências (O mais importante para não subir)
+node_modules/
+dist/
+build/
+.next/
+out/
+
+# Variáveis de ambiente (Segurança)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# IDEs e Editores
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Sistema Operacional
+Thumbs.db
+.DS_Store
+
+# TypeScript
+tsconfig.tsbuildinfo

@@ -1,0 +1,22 @@
+
+
+.listaUsuarios{
+    display: flex;
+    flex:3;
+}
+.taskCadastroUser{
+    
+    display: flex;
+    flex:1
+    
+
+}
+.taskCadastroUser form {
+
+    display: flex;
+    flex-direction: column;
+
+}
+
+
+
