@@ -1,0 +1,75 @@
+.sideBar{    
+    width: 300px;
+    background-color: #1A4A73;
+    color: white;
+   
+}
+.containerSideBar{
+
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+.areaLogo{
+    display: flex;
+    width: 300px;
+    height: 200px;
+   align-items: center;
+   padding-left: 20px; 
+}
+
+.imgLogoSideBar{
+
+    width: 100px;
+    height: 150px;
+    object-fit: cover;
+}
+
+.areaBotoes{
+    display: flex;
+    width: 240px;
+    height: 70%;
+    flex-direction: column;
+    padding: 20px;
+    background-color: #1a4870;
+    border: 3px solid#0e3252;
+    border-radius: 20px;
+    box-shadow: 0 0 4px 0 black;
+    gap: 5px
+}
+.navButton{
+
+    width: 220px;
+    height: 50px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.link{
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+    font-size: 20px;
+    display: flex;
+    gap: 10px;
+    
+}
+
+.navButton:hover,
+.areaLogo:hover{
+    background-color: #30699a;
+    box-shadow: 0 0 8px 0 black;
+    transition: 0.5s;
+    
+}
+
+.areaLogo:hover{
+    width: 260px;
+    border-radius: 20px;
+    transition: 0.3s;
+}

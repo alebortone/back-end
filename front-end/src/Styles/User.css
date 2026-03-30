@@ -1,0 +1,210 @@
+.containerUser{
+    display: flex;
+    flex-direction: column;
+    margin-top: 70px;
+    gap: 1rem;
+}
+
+.areaAddUser{
+    display: flex;
+    justify-content: space-between;
+    flex: 1;
+}
+
+.inputBuscar{
+
+    width: 350px;
+    height: 40px;
+    background-color: #9dbbd6;
+    border: 0;
+    border-radius: 5px;
+    box-shadow: 0 0 5px 0 black;
+    margin-right: 5px;
+}
+
+.buttonBuscar{
+    height: 40px;
+    width: 80px;
+    border: 0;
+    border-radius: 5px;
+    box-shadow: 0 0 5px 0 black;
+    background-color: #1A4A73;
+    color: white;
+    cursor: pointer;
+}
+
+.buttonAddUser{
+
+    width: 175px;
+    height: 40px;
+    border:2px solid #1A4A73;
+    border-radius: 20px;
+    color: #1A4A73;
+    box-shadow: 0 0 3px 0 #000000;
+    cursor: pointer;
+}
+
+.buttonAddUser:hover{
+    color: white;
+    background-color: #1A4A73;
+    transition: 0.5s;
+    box-shadow: 0 0 10px 0 #1A4A73 ;
+}
+.listaUsers{
+    
+    width: 98%;
+    box-shadow: 0 0 10px 0 rgb(0, 0, 0);
+    background-color: rgb(218, 218, 218);
+    padding: 10px;
+    border: 2px solid #1A4A73;
+    border-radius: 15px;
+}
+
+.cabecalhoArea{
+    display: flex;
+    
+}
+h3{
+    flex: 1;
+}
+h4{
+    flex: 0.3;
+}
+.userArea{
+
+    display: flex;
+    box-shadow: 0 2px 2px 0 grey;
+    
+
+}
+
+p{
+    flex: 1;
+}
+.acoes{
+    flex:0.3;
+    display: flex;
+    align-items: center;
+}
+
+
+.cadastroUser{
+
+    display: flex;
+    flex-flow: column nowrap;
+    height: 80%;
+
+}
+
+.formInputs{
+
+    display: flex;
+    flex-flow: row wrap;
+    gap: 20px;
+    flex: 1;
+    align-items: start;
+    
+}
+
+.inputCriarUser{
+
+    width: 45%;
+    height: 40px;
+    padding: 0;
+    
+}
+
+.areaSenha{
+    width: 45%;
+    height: 40px;
+    display: flex;
+}
+
+.inputSenha{
+    width: 100%;
+    padding: 0;
+    height: 100%;
+}
+
+.buttonEye{
+    width: 10%;
+    padding: 0;
+    background: none;
+    border: 0;
+    cursor: pointer;
+
+}
+
+.eyeIcon{
+    font-size: 20px;
+}
+
+
+.formBotoes{
+
+    display: flex;
+    gap: 5px;
+    height: 30px;
+    width: 100%;
+    justify-content: end;
+}
+
+.buttonCriar,
+.buttonCancelar{
+
+    width: 90px;
+    height: 30px;
+    box-shadow: 0 0 5px 0px black;
+    border: 0;
+    border-radius: 10px;
+    color: aliceblue;
+
+}
+
+.buttonCriar{
+    background-color: rgb(4, 201, 4);
+    
+}
+.buttonCancelar{
+    background-color: rgb(230, 30, 30);
+}
+
+.buttonCriar:hover{
+    box-shadow: 0 0 8px 0px black;
+    background-color: rgb(0, 136, 16);
+    transition: 0.5s;
+}
+
+.buttonCancelar:hover{
+    box-shadow: 0 0 8px 0px black;
+    background-color: rgb(161, 0, 0);
+    transition: 0.5s;
+}
+
+.userArea:hover{
+
+    background-color: rgb(200, 200, 200);
+    box-shadow: 0 0 7px 0 black;
+}
+.buttonAcoes{
+   background: none;
+   border: none;
+   cursor: pointer
+}
+
+.lixeira{
+    color: rgb(196, 32, 32);
+    font-size: 23px;
+}
+
+.editar{
+
+    font-size:23px;
+    color:  #1A4A73;
+}
+
+.lixeira:hover,
+.editar:hover{
+
+    box-shadow: 0 0 3px 0 black;
+}

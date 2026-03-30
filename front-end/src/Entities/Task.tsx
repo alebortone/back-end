@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import api from "../service/BaseService";
+import Modal from "../Components/Modal";
+import "../Styles/Task.css"
 
 type Task = {
     id: number;
@@ -8,6 +10,7 @@ type Task = {
     completed: boolean;
     userId: string;
     createdAt: Date;
+    user :UserAux
 }
 
 type UserAux = {
@@ -26,13 +29,13 @@ function Task() {
     const [id, setId] = useState<number | null>(null);
     const [completed, setCompleted] = useState(false);
     const [handdleEditar, setHanddleEditar] = useState(false);
-    
-    
+
+
     function getTasks() {
         api.get("/task").then((response) => setTasks(response.data)).catch((error) => console.log("Ocorreu um erro: ", error));
     }
 
-    async function getUsersAux(){
+    async function getUsersAux() {
         await api.get("/users").then((response) => setUserAux(response.data)).catch((error) => console.log("Ocorreu um erro: ", error));
     }
 
@@ -89,35 +92,76 @@ function Task() {
         getTasks();
     }
 
+    const [open, setOpen] = useState(false)
+    const [opcao, setOpcao] = useState('');
+
+    function resetModal() {
+        setOpen(false)
+        setOpcao("")
+        setHanddleEditar(false)
+    }
+
+
     return (
         <div>
+
+            <button onClick={() => setOpen(true)}>Adcionar tarefa REAL</button>
+            {open && (
+                <Modal>
+                    <h2>Criar Tarefa</h2>
+
+                    <form className="formTask" onSubmit={postUser}>
+                        <div className="areaInputTask">
+                            <label htmlFor=""> Insira um titulo:
+                                <input className = "inputCriarTask" type="text" required placeholder='Titulo' value={title} onChange={(e) => setTitle(e.target.value)} />
+                            </label>
+                            
+                            <label htmlFor=""> Insira um descrição
+                                <input className = "inputCriarTask" type="text" required placeholder='Descricao' value={description} onChange={(e) => setDescription(e.target.value)} />
+                            </label>
+
+                            <label htmlFor=""> Qual a prioridade?
+                                <select className="inputCriarUser" id="itens" value={opcao} onChange={(e) => setOpcao(e.target.value)}>
+                                    <option value="" disabled>Selecione...</option>
+                                    <option value="MINIMA">Minima</option>
+                                    <option value="MEDIA">Media</option>
+                                    <option value="MAXIMA">Maxima</option>
+                                </select>
+                            </label>
+                        </div>
+
+                        
+                        <div className="areaBotoesCriarTask">
+                            <button className="buttonCancelar" type="button" onClick={resetModal}>Cancelar</button>
+                            <button className="buttonCriar" type="submit" > Salvar</button>
+                        </div>
+                    </form>
+                    
+
+                </Modal>
+            ) || handdleEditar && (
+                <Modal>
+                    <h2>Criar Usuário</h2>
+
+
+                </Modal>
+
+            )}
+
+
+
             {tasks.map((task) => (
                 <div key={task.id}>
                     <h2>{task.title}</h2>
                     <p>{task.description}</p>
+                    <p>{task.user.name}</p>
                     <button onClick={() => hanndleEditar(task)}>Editar</button>
                     <button onClick={() => deleteTask(task.id)}>Excluir</button>
                 </div>
 
             ))}
 
-            <form onSubmit={postUser}>
-                <input type="text" required placeholder='Titulo' value={title} onChange={(e) => setTitle(e.target.value)} />
-                <input type="text" required placeholder='Descricao' value={description} onChange={(e) => setDescription(e.target.value)} />
-
-                <select value={userAuxId} onChange={e => setUserAuxId (e.target.value)}>
-                    
-                    <option value="">Selecione</option>
-                    {userAux.map(user => (
-                        <option key={user.id} value={user.id}>
-                            {user.name}
-                        </option>
-                    ))}
-                </select>
-                <h3>Usuario selecionado {userAuxId}</h3>
-                <button type="submit" >{handdleEditar ? 'Atualizar Tarefa' : 'Adicionar Tarefa'}</button>
-            </form>
-
+            
         </div>
     );
 

@@ -1,22 +1,21 @@
 
-
-.listaUsuarios{
+.containerPag{
     display: flex;
-    flex:3;
-}
-.taskCadastroUser{
+    height: 100vh;
+    width: 100%;
+    background-color: #c6d3e3;
     
-    display: flex;
-    flex:1
+}
+
+.containerHome{
     
-
-}
-.taskCadastroUser form {
-
-    display: flex;
-    flex-direction: column;
-
+    padding: 48px;
+    flex: 1;
+    
 }
 
-
+h1{
+    margin: 0;
+    padding: 0;
+}
 

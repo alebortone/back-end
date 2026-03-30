@@ -4,8 +4,9 @@ import App from './App.tsx';
 import Users from './Entities/Users.tsx';
 import Task from './Entities/Task.tsx'
 import Login from './Entities/Login.tsx'
-
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import PrivateRoute from './service/PrivateRoute.tsx';
+
 
 
 const router = createBrowserRouter([
@@ -16,7 +17,11 @@ const router = createBrowserRouter([
   },
   {
     path: "home",
-    element: <App/>,
+    element: (
+      <PrivateRoute>
+        <App />
+      </PrivateRoute>
+    ),
     children:[
       {
         path: "users",

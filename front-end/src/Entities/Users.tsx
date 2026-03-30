@@ -1,116 +1,197 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type ReactEventHandler } from 'react';
 import api from '../service/BaseService'
-import '../Styles/App.css'
+import '../Styles/User.css'
+import Modal from '../Components/Modal';
+
+import { RiEdit2Line } from "react-icons/ri";
+import { MdOutlineDeleteOutline } from "react-icons/md";
+import { FaRegEye } from "react-icons/fa";
+import { FaRegEyeSlash } from "react-icons/fa";
 
 type User = {
-  id: string;
-  name: string;
-  email: string;
-  password: string;
-  isActive: boolean;
-  createdAt: Date;
+    id: string;
+    name: string;
+    email: string;
+    password: string;
+    isActive: boolean;
+    createdAt: Date;
 }
 
 function Users() {
 
-  const [user, setUser] = useState<User[]>([]);
-  const [password, setPassword] = useState("")
-  const [id, setId] = useState<string | null>(null);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [handdleEditar, setHanddleEditar] = useState(false);
-  const isActive = true;
+    const [user, setUser] = useState<User[]>([]);
+    const [password, setPassword] = useState("")
+    const [id, setId] = useState<string | null>(null);
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [handdleEditar, setHanddleEditar] = useState(false);
+    const isActive = true;
+    const [visualizar, setVisualizar] = useState(false)
 
-  async function getUsers() {
-    await api.get("/users").then((response) => setUser(response.data)).catch((error) => console.log("Ocorreu um erro: ", error));
-  }
+    const [open, setOpen] = useState(false);
 
-  useEffect(() => {
-    getUsers();
-  }, [])
+    async function getUsers() {
+        await api.get("/users").then((response) => setUser(response.data)).catch((error) => console.log("Ocorreu um erro: ", error));
+    }
+
+    useEffect(() => {
+        getUsers();
+    }, [])
 
 
 
-  async function deleteUser(id: string) {
-    await api.delete(`/users/${id}`);
-    clearForm();
-    getUsers();
-  }
+    async function deleteUser(id: string) {
+        await api.delete(`/users/${id}`);
+        clearForm();
+        getUsers();
+    }
 
-  function handlleEditar(e: User) {
-    setHanddleEditar(true);
-    setName(e.name)
-    setEmail(e.email)
-    setPassword(e.password)
-    setId(e.id)
-  }
+    function handlleEditar(e: User) {
+        setHanddleEditar(true);
+        setName(e.name)
+        setEmail(e.email)
+        setId(e.id)
+    }
 
-  async function postUser(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    if (!handdleEditar) {
-      await api.post("/users", {
-        name,
-        email,
-        password,
-        isActive
-      });
-    } else {
-      await api.put(`/users/${id}`, {
-        id,
-        name,
-        email,
-        password,
-        isActive
-      })
-      setHanddleEditar(false);
+    async function postUser() {
+
+        if (!handdleEditar) {
+            await api.post("/users", {
+                name,
+                email,
+                password,
+                isActive
+            });
+        } else {
+            await api.put(`/users/${id}`, {
+                id,
+                name,
+                email,
+                isActive
+            })
+            setHanddleEditar(false);
+        }
+
+        setOpen(false)
+        clearForm();
+        getUsers();
+    }
+
+    async function getUserById(id: number) {
+        await api.get(`/users/${id}`);
+    }
+
+    function clearForm() {
+        setName("");
+        setEmail("");
+        setPassword("")
+        setOpcao("")
+    }
+
+    const [opcao, setOpcao] = useState('');
+
+    function resetModal() {
+        setOpen(false)
+        setOpcao("")
+        setHanddleEditar(false)
     }
 
 
-    clearForm();
-    getUsers();
-  }
+    return (
+        <div className='containerUser'>
 
-  async function getUserById(id: number) {
-    await api.get(`/users/${id}`);
-  }
+            <div className='areaAddUser'>
+                
 
-  function clearForm() {
-    setName("");
-    setEmail("");
-    setPassword("")
-  }
+                <div>
+                    <input className= "inputBuscar"type="text" placeholder='Buscar...'/>
+                    <button className='buttonBuscar'>Buscar</button>
+                </div>
+                <button className="buttonAddUser" onClick={() => setOpen(!open)}> Adicionar Usuario </button>
+            </div>
+
+            {open && (
+                <Modal>
+                    <h2>Criar Usuário</h2>
+
+                    <form className='cadastroUser' onSubmit={(e) => { e.preventDefault; postUser() }}>
+                        <div className='formInputs'>
+                            <input className="inputCriarUser" type="text" required placeholder='Nome' value={name} onChange={(e) => setName(e.target.value)} />
+                            <select className="inputCriarUser" id="itens" value={opcao} onChange={(e) => setOpcao(e.target.value)}>
+                                <option value="" disabled>Selecione...</option>
+                                <option value="ADMIM">Admin</option>
+                                <option value="USUARIO">Usuario</option>
+                            </select>
+                            <input className="inputCriarUser" type="email" required placeholder='Email' value={email} onChange={(e) => setEmail(e.target.value)} />
+                            <div className="areaSenha">
+                                <input className="inputSenha" type={visualizar ? "text" : "password"} required placeholder='Senha' value={password} onChange={(e) => setPassword(e.target.value)} />
+                                <button className="buttonEye" onClick={() => setVisualizar(!visualizar)} type="button">
+                                    {visualizar ? <FaRegEyeSlash className="eyeIcon" /> : <FaRegEye className="eyeIcon" />}
+                                </button>
+                            </div>
+                        </div>
+
+                        <div className='formBotoes'>
+                            <button className="buttonCancelar" type="button" onClick={resetModal}>Cancelar</button>
+                            <button className="buttonCriar" type="submit" > Salvar</button>
+                        </div>
+                    </form>
 
 
-  return (
-    <div>
+                </Modal>
+            ) || handdleEditar && (
+                <Modal>
+                    <h2>Atualizar Usuário</h2>
 
-      <div className='listaUsers'>
-        <h1>Lista de Usuários</h1>
-        <ul>
-          {user.map((users) => (
-            <li key={users.id}>
-              <strong>Nome:</strong> {users.name} <br />
-              <strong>Email:</strong> {users.email} <br />
-              <strong>Status:</strong> {users.isActive ? 'Ativo' : 'Inativo'} <br />
-              <strong>Criado em:</strong> {new Date(users.createdAt).toLocaleDateString()} <br />
-              <button onClick={() => deleteUser(users.id)}>Deletar</button>
-              <button onClick={() => handlleEditar(users)}>Atualizar</button>
-            </li>
-          ))}
-        </ul>
-      </div>
+                    <form className='cadastroUser' onSubmit={() => { postUser() }}>
+                        <div className='formInputs'>
+                            <input className="inputCriarUser" type="text" required placeholder='Nome' value={name} onChange={(e) => setName(e.target.value)} />
+                            <select className="inputCriarUser" id="itens" value={opcao} onChange={(e) => setOpcao(e.target.value)}>
+                                <option value="" disabled>Selecione...</option>
+                                <option value="ADMIM">Admin</option>
+                                <option value="USUARIO">Usuario</option>
+                            </select>
+                            <input className="inputCriarUser" type="email" required placeholder='Email' value={email} onChange={(e) => setEmail(e.target.value)} />
+                        </div>
 
-      <div className='taskCadastroUser'>
-        <form onSubmit={postUser}>
-          <input type="text" required placeholder='Nome' value={name} onChange={(e) => setName(e.target.value)} />
-          <input type="email" required placeholder='Email' value={email} onChange={(e) => setEmail(e.target.value)} />
-          <input type="type" required placeholder='Senha' value={password} onChange={(e) => setPassword(e.target.value)} />
-          <button type="submit" >{handdleEditar ? 'Atualizar Usuário' : 'Adicionar Usuário'}</button>
-        </form>
-      </div>
+                        <div className='formBotoes'>
+                            <button className="buttonCancelar" type="button" onClick={resetModal}>Cancelar</button>
+                            <button className="buttonCriar" type="submit" > Salvar</button>
+                        </div>
+                    </form>
 
-    </div>
-  );
+                </Modal>
+
+            )}
+
+            <div className='listaUsers'>
+                <h1>Lista de Usuários</h1>
+                <div className='cabecalhoArea'>
+                    <h3>Usuario</h3>
+                    <h3>Email</h3>
+                    <h3>Perfil</h3>
+                    <h4>Ações</h4>
+                </div>
+                <div>
+                    {user.map((users) => (
+
+                        <div className='userArea' key={users.id}>
+                            <p>{users.name}</p>
+                            <p>{users.email}</p>
+                            <p>{users.isActive ? 'Ativo' : 'Inativo'}</p>
+                            <div className='acoes'>
+                                <button className="buttonAcoes" onClick={() => handlleEditar(users)}><RiEdit2Line className='editar' /></button>
+                                <button className="buttonAcoes" onClick={() => deleteUser(users.id)}><MdOutlineDeleteOutline className='lixeira' /></button>
+                            </div>
+                        </div>
+
+                    ))}
+                </div>
+            </div>
+
+
+        </div>
+    );
 }
 
 export default Users

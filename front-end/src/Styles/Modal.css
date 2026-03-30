@@ -1,0 +1,23 @@
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;   
+    justify-content: center; 
+
+    z-index: 1000;
+}
+
+.modal {
+    color: white;
+    background-image: linear-gradient(to left, #7699b8, #1A4A73);
+    padding: 24px;
+    border-radius: 8px;
+    width: 700px;
+    height: 400px;
+
+}
