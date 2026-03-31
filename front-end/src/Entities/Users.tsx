@@ -2,6 +2,7 @@ import { useEffect, useState, type ReactEventHandler } from 'react';
 import api from '../service/BaseService'
 import '../Styles/User.css'
 import Modal from '../Components/Modal';
+import Swal from 'sweetalert2';
 
 import { RiEdit2Line } from "react-icons/ri";
 import { MdOutlineDeleteOutline } from "react-icons/md";
@@ -41,9 +42,28 @@ function Users() {
 
 
     async function deleteUser(id: string) {
-        await api.delete(`/users/${id}`);
+
+        const acao = await Swal.fire({
+            title: 'Tem certeza?',
+            text: 'Deseja mesmo excluir usuario?.',
+            icon: 'warning',
+            showCancelButton: true,
+            reverseButtons: true,
+            cancelButtonText: 'Cancelar',
+            cancelButtonColor: '#c41616',
+            confirmButtonText: 'Sim, excluir',
+            confirmButtonColor: '#1daa29'
+        });
+        if (acao.isConfirmed) {
+            await api.delete(`/users/${id}`);
+            Swal.fire({title: "Deletado!", icon: 'success'})
+            getUsers();
+        } else {
+            Swal.fire({title: "Operação cancelada!"})
+        }
+        
         clearForm();
-        getUsers();
+        
     }
 
     function handlleEditar(e: User) {
@@ -100,14 +120,14 @@ function Users() {
     return (
         <div className='containerUser'>
 
-            <div className='areaAddUser'>
+            <div className='areaAdd'>
                 
 
                 <div>
                     <input className= "inputBuscar"type="text" placeholder='Buscar...'/>
                     <button className='buttonBuscar'>Buscar</button>
                 </div>
-                <button className="buttonAddUser" onClick={() => setOpen(!open)}> Adicionar Usuario </button>
+                <button className="buttonAdd" onClick={() => setOpen(!open)}> Adicionar Usuario </button>
             </div>
 
             {open && (
@@ -164,18 +184,18 @@ function Users() {
 
             )}
 
-            <div className='listaUsers'>
+            <div className='lista'>
                 <h1>Lista de Usuários</h1>
-                <div className='cabecalhoArea'>
+                <div className='cabecalhoArea gridUser'>
                     <h3>Usuario</h3>
                     <h3>Email</h3>
                     <h3>Perfil</h3>
-                    <h4>Ações</h4>
+                    <h3>Ações</h3>
                 </div>
                 <div>
                     {user.map((users) => (
 
-                        <div className='userArea' key={users.id}>
+                        <div className='userArea gridUser' key={users.id}>
                             <p>{users.name}</p>
                             <p>{users.email}</p>
                             <p>{users.isActive ? 'Ativo' : 'Inativo'}</p>

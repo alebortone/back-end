@@ -15,7 +15,7 @@ export class TaskController {
   @Post()
   create(@Body() createTaskDto: CreateTaskDto, @Request() req) {
 
-    const userId = req.user.userId
+    const userId = req.user.sub
     return this.taskService.create(createTaskDto, userId);
   }
 

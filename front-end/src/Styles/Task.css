@@ -4,7 +4,7 @@
     flex-direction: column;
     padding: 30px;
     align-items: center;
-    height: 300px;
+    height: 290px;
 }
 
 .areaInputTask{
@@ -20,13 +20,44 @@
 
 .inputCriarTask{
 
-    width: 70%;
-    height: 50px;
+    width: 60%;
+    height: 40px;
 }
 
-label{
+.inputCheck{
+
+    width: 20px;
+    height: 20px;
+
+}
+
+.gridTask{
+
+    display: grid;
+    grid-template-columns: 1.5fr 1.5fr 1.5fr 1fr 1fr;
+    gap: 20px;
+    align-items: center;
+}
+
+.taskArea{
+
+    
+    box-shadow: 0 2px 2px 0 grey;
+    
+
+}
+
+.taskArea:hover{
+
+    background-color: rgb(200, 200, 200);
+    box-shadow: 0 0 7px 0 black;
+}
+
+.labelTask{
+
     display: flex;
     flex-direction: column;
+
 }
 .areaBotoesCriarTask{
     display: flex;

@@ -5,7 +5,7 @@
     gap: 1rem;
 }
 
-.areaAddUser{
+.areaAdd{
     display: flex;
     justify-content: space-between;
     flex: 1;
@@ -33,7 +33,7 @@
     cursor: pointer;
 }
 
-.buttonAddUser{
+.buttonAdd{
 
     width: 175px;
     height: 40px;
@@ -44,13 +44,13 @@
     cursor: pointer;
 }
 
-.buttonAddUser:hover{
+.buttonAdd:hover{
     color: white;
     background-color: #1A4A73;
     transition: 0.5s;
     box-shadow: 0 0 10px 0 #1A4A73 ;
 }
-.listaUsers{
+.lista{
     
     width: 98%;
     box-shadow: 0 0 10px 0 rgb(0, 0, 0);
@@ -60,29 +60,27 @@
     border-radius: 15px;
 }
 
-.cabecalhoArea{
-    display: flex;
-    
-}
-h3{
-    flex: 1;
-}
-h4{
-    flex: 0.3;
-}
+
+
+.gridUser {
+    display: grid;
+    grid-template-columns: 2fr 2fr 1fr 1fr;
+    gap: 16px;
+    align-items: center;
+}    
+
+
+
 .userArea{
 
-    display: flex;
+    padding: 8px 0;
     box-shadow: 0 2px 2px 0 grey;
     
 
 }
 
-p{
-    flex: 1;
-}
 .acoes{
-    flex:0.3;
+    
     display: flex;
     align-items: center;
 }
