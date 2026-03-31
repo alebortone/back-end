@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Put, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Put, Param, Delete, UseGuards, Query } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -7,7 +7,7 @@ import { JwtAuthGuard } from 'src/auth/passport_jwt/jwt-auth.guard';
 
 
 
-@Controller('users')
+@Controller('user')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
   
@@ -18,7 +18,10 @@ export class UsersController {
 
   @UseGuards(JwtAuthGuard)
   @Get()
-  findAll() {
+  findAll(@Query('name') name?: string) {
+    if(name)
+    return this.usersService.findByName(name);
+
     return this.usersService.findAll();
   }
 
@@ -27,6 +30,8 @@ export class UsersController {
   findOne(@Param('id') id: string) {
     return this.usersService.findOne(id);
   }
+  
+
   @UseGuards(JwtAuthGuard)
   @Put(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {

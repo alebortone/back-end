@@ -1,9 +1,8 @@
-import { useEffect, useState, type ReactEventHandler } from 'react';
+import { useEffect, useState} from 'react';
 import api from '../service/BaseService'
 import '../Styles/User.css'
 import Modal from '../Components/Modal';
 import Swal from 'sweetalert2';
-
 import { RiEdit2Line } from "react-icons/ri";
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import { FaRegEye } from "react-icons/fa";
@@ -20,19 +19,23 @@ type User = {
 
 function Users() {
 
-    const [user, setUser] = useState<User[]>([]);
-    const [password, setPassword] = useState("")
-    const [id, setId] = useState<string | null>(null);
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const [handdleEditar, setHanddleEditar] = useState(false);
-    const isActive = true;
-    const [visualizar, setVisualizar] = useState(false)
+    const initialForm = {
+        name: "",
+        email: "",
+        password: "",
+        isActive: true,
+    };
 
+    const [user, setUser] = useState<User[]>([]);
+    const [formUser, setFormUser] = useState(initialForm)
+    const [id, setId] = useState<string | null>(null);
+    const [isEditing, setisEditing] = useState(false);
+    const [visualizar, setVisualizar] = useState(false)
+    const [nameBusca, setNameBusca] = useState("")
     const [open, setOpen] = useState(false);
 
     async function getUsers() {
-        await api.get("/users").then((response) => setUser(response.data)).catch((error) => console.log("Ocorreu um erro: ", error));
+        await api.get("/user").then((response) => setUser(response.data)).catch((error) => console.log("Ocorreu um erro: ", error));
     }
 
     useEffect(() => {
@@ -55,41 +58,38 @@ function Users() {
             confirmButtonColor: '#1daa29'
         });
         if (acao.isConfirmed) {
-            await api.delete(`/users/${id}`);
-            Swal.fire({title: "Deletado!", icon: 'success'})
+            await api.delete(`/user/${id}`);
+            Swal.fire({ title: "Deletado!", icon: 'success' })
             getUsers();
         } else {
-            Swal.fire({title: "Operação cancelada!"})
+            Swal.fire({ title: "Operação cancelada!" })
         }
-        
+
         clearForm();
-        
+
     }
 
     function handlleEditar(e: User) {
-        setHanddleEditar(true);
-        setName(e.name)
-        setEmail(e.email)
+
+        setFormUser({
+            name: (e.name),
+            email: (e.email),
+            isActive: (e.isActive),
+            password: (e.password)
+        })
+
         setId(e.id)
+        setisEditing(true);
+        setOpen(true);
     }
 
     async function postUser() {
 
-        if (!handdleEditar) {
-            await api.post("/users", {
-                name,
-                email,
-                password,
-                isActive
-            });
+        if (!isEditing) {
+            await api.post("/user", formUser);
         } else {
-            await api.put(`/users/${id}`, {
-                id,
-                name,
-                email,
-                isActive
-            })
-            setHanddleEditar(false);
+            await api.put(`/user/${id}`, formUser)
+            setisEditing(false);
         }
 
         setOpen(false)
@@ -97,14 +97,9 @@ function Users() {
         getUsers();
     }
 
-    async function getUserById(id: number) {
-        await api.get(`/users/${id}`);
-    }
 
     function clearForm() {
-        setName("");
-        setEmail("");
-        setPassword("")
+        setFormUser(initialForm)
         setOpcao("")
     }
 
@@ -113,7 +108,19 @@ function Users() {
     function resetModal() {
         setOpen(false)
         setOpcao("")
-        setHanddleEditar(false)
+        setisEditing(false)
+    }
+
+    async function buscarName() {
+
+        try {
+            const response = await api.get(`/user?name=${nameBusca}`);
+            setUser(response.data);
+        } catch (error) {
+            console.log("Erro ao buscar:", error);
+        }
+
+
     }
 
 
@@ -121,57 +128,39 @@ function Users() {
         <div className='containerUser'>
 
             <div className='areaAdd'>
-                
+
 
                 <div>
-                    <input className= "inputBuscar"type="text" placeholder='Buscar...'/>
-                    <button className='buttonBuscar'>Buscar</button>
+                    <form action="" onSubmit={(e) => { e.preventDefault(); buscarName() }}>
+                        <input className="inputBuscar" type="search" placeholder='Buscar...' value={nameBusca} onChange={(e) => setNameBusca(e.target.value)} />
+                        <button onClick={() => { setNameBusca(""); getUsers() }} type="button" className='buttonLimpar'>Limpar</button>
+                        <button className='buttonBuscar'>Buscar</button>
+                    </form>
                 </div>
                 <button className="buttonAdd" onClick={() => setOpen(!open)}> Adicionar Usuario </button>
             </div>
 
             {open && (
                 <Modal>
-                    <h2>Criar Usuário</h2>
+                    <h2>{isEditing ? "Editar usuario" : "Criar Usuário"} </h2>
 
-                    <form className='cadastroUser' onSubmit={(e) => { e.preventDefault; postUser() }}>
+                    <form className='cadastroUser' onSubmit={(e) => { e.preventDefault(); postUser() }}>
                         <div className='formInputs'>
-                            <input className="inputCriarUser" type="text" required placeholder='Nome' value={name} onChange={(e) => setName(e.target.value)} />
+                            <input className="inputCriarUser" type="text" required placeholder='Nome' value={formUser.name} onChange={(e) => setFormUser({ ...formUser, name: e.target.value })} />
                             <select className="inputCriarUser" id="itens" value={opcao} onChange={(e) => setOpcao(e.target.value)}>
                                 <option value="" disabled>Selecione...</option>
                                 <option value="ADMIM">Admin</option>
                                 <option value="USUARIO">Usuario</option>
                             </select>
-                            <input className="inputCriarUser" type="email" required placeholder='Email' value={email} onChange={(e) => setEmail(e.target.value)} />
-                            <div className="areaSenha">
-                                <input className="inputSenha" type={visualizar ? "text" : "password"} required placeholder='Senha' value={password} onChange={(e) => setPassword(e.target.value)} />
-                                <button className="buttonEye" onClick={() => setVisualizar(!visualizar)} type="button">
-                                    {visualizar ? <FaRegEyeSlash className="eyeIcon" /> : <FaRegEye className="eyeIcon" />}
-                                </button>
-                            </div>
-                        </div>
-
-                        <div className='formBotoes'>
-                            <button className="buttonCancelar" type="button" onClick={resetModal}>Cancelar</button>
-                            <button className="buttonCriar" type="submit" > Salvar</button>
-                        </div>
-                    </form>
-
-
-                </Modal>
-            ) || handdleEditar && (
-                <Modal>
-                    <h2>Atualizar Usuário</h2>
-
-                    <form className='cadastroUser' onSubmit={() => { postUser() }}>
-                        <div className='formInputs'>
-                            <input className="inputCriarUser" type="text" required placeholder='Nome' value={name} onChange={(e) => setName(e.target.value)} />
-                            <select className="inputCriarUser" id="itens" value={opcao} onChange={(e) => setOpcao(e.target.value)}>
-                                <option value="" disabled>Selecione...</option>
-                                <option value="ADMIM">Admin</option>
-                                <option value="USUARIO">Usuario</option>
-                            </select>
-                            <input className="inputCriarUser" type="email" required placeholder='Email' value={email} onChange={(e) => setEmail(e.target.value)} />
+                            <input className="inputCriarUser" type="email" required placeholder='Email' value={formUser.email} onChange={(e) => setFormUser({ ...formUser, email: e.target.value })} />
+                            {!isEditing && (
+                                <div className="areaSenha">
+                                    <input className="inputSenha" type={visualizar ? "text" : "password"} required placeholder='Senha' value={formUser.password} onChange={(e) => setFormUser({ ...formUser, password: e.target.value })} />
+                                    <button className="buttonEye" onClick={() => setVisualizar(!visualizar)} type="button">
+                                        {visualizar ? <FaRegEyeSlash className="eyeIcon" /> : <FaRegEye className="eyeIcon" />}
+                                    </button>
+                                </div>
+                            )}
                         </div>
 
                         <div className='formBotoes'>
@@ -181,8 +170,8 @@ function Users() {
                     </form>
 
                 </Modal>
+            )} 
 
-            )}
 
             <div className='lista'>
                 <h1>Lista de Usuários</h1>

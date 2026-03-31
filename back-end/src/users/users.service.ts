@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { hashSync as bcryptHashSync } from 'bcrypt';
+import { ILike } from 'typeorm';
 
 @Injectable()
 export class UsersService {
@@ -42,6 +43,14 @@ export class UsersService {
     return userFound;
   }
 
+  async findByName(name:string){
+    return await this.userRepository.find({
+    where: {
+      name: ILike(`%${name}%`)
+    }
+  });
+  
+  }
   async findAll() {
     return await this.userRepository.find();
   }

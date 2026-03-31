@@ -36,6 +36,7 @@ function Task() {
     const [form, setForm] = useState(initialForm);
     const [isEditing, setisEditing] = useState(false);
     const [id, setId] = useState<number | null>(null);
+    const [titleBusca, setTitleBusca] = useState("")
 
 
     function getTasks() {
@@ -109,15 +110,29 @@ function Task() {
         setisEditing(false)
     }
 
+     async function buscarTitle() {
+
+        try {
+            const response = await api.get(`/task?title=${titleBusca}`);
+            setTasks(response.data);
+        } catch (error) {
+            console.log("Erro ao buscar:", error);
+        }
+        
+    }
+
 
     return (
         <div className='containerUser'>
 
             <div className='areaAdd'>
 
-                <div>
-                    <input className="inputBuscar" type="text" placeholder='Buscar...' />
-                    <button className='buttonBuscar'>Buscar</button>
+                 <div>
+                    <form action="" onSubmit={(e)=>{ e.preventDefault(); buscarTitle()}}>
+                        <input className="inputBuscar" type="search" placeholder='Buscar...' value={titleBusca} onChange={(e) => setTitleBusca(e.target.value)} />
+                        <button onClick={()=> {setTitleBusca(""); getTasks()}} type="button"className='buttonLimpar'>Limpar</button>
+                        <button className='buttonBuscar'>Buscar</button>
+                    </form>
                 </div>
                 <button className="buttonAdd" onClick={() => setOpen(!open)}> Adicionar tarefa </button>
             </div>

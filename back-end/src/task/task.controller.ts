@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Body, Param, Delete, Put, UseGuards, Request } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Put, UseGuards, Request, Query } from '@nestjs/common';
 import { TaskService } from './task.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { JwtAuthGuard } from 'src/auth/passport_jwt/jwt-auth.guard';
+import { title } from 'process';
 
 
 
@@ -19,10 +20,14 @@ export class TaskController {
     return this.taskService.create(createTaskDto, userId);
   }
 
-  @Get()
-  findAll() {
-    return this.taskService.findAll();
-  }
+  @UseGuards(JwtAuthGuard)
+    @Get()
+    findAll(@Query('title') title?: string) {
+      if(title)
+      return this.taskService.findByTitle(title);
+  
+      return this.taskService.findAll();
+    }
 
   @Get(':id')
   findOne(@Param('id') id: number) {

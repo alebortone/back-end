@@ -1,4 +1,6 @@
-
+*{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
 .containerPag{
     display: flex;
     height: 100vh;

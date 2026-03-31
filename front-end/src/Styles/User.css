@@ -33,6 +33,18 @@
     cursor: pointer;
 }
 
+.buttonLimpar{
+    height: 40px;
+    width: 80px;
+    border: 0;
+    margin-right: 5px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px 0 black;
+    background-color: #af1f15;
+    color: white;
+    cursor: pointer;
+}
+
 .buttonAdd{
 
     width: 175px;
