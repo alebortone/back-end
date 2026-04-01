@@ -29,7 +29,7 @@ function UserEmail() {
   }, []);
 
   return (
-    <h3 style={{margin: "0px"}}>Usuario: {userEmail}</h3>
+     userEmail
   );
 }
 

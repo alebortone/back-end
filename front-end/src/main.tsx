@@ -6,7 +6,7 @@ import Task from './Entities/Task.tsx'
 import Login from './Entities/Login.tsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import PrivateRoute from './service/PrivateRoute.tsx';
-
+import Home from './Entities/Home.tsx'
 
 
 const router = createBrowserRouter([
@@ -22,14 +22,18 @@ const router = createBrowserRouter([
         <App />
       </PrivateRoute>
     ),
-    children:[
+    children: [
+      {
+        index: true,
+        element: <Home />
+      },
       {
         path: "users",
-        element: <Users/>
+        element: <Users />
       },
       {
         path: "task",
-        element: <Task/>,
+        element: <Task />,
       }
     ]
   },

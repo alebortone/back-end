@@ -11,23 +11,22 @@ import { title } from 'process';
 @UseGuards(JwtAuthGuard)
 @Controller('task')
 export class TaskController {
-  constructor(private readonly taskService: TaskService) {}
+  constructor(private readonly taskService: TaskService) { }
 
   @Post()
   create(@Body() createTaskDto: CreateTaskDto, @Request() req) {
 
-    const userId = req.user.sub
+    const userId = req.user.userId
     return this.taskService.create(createTaskDto, userId);
   }
 
-  @UseGuards(JwtAuthGuard)
-    @Get()
-    findAll(@Query('title') title?: string) {
-      if(title)
+  @Get()
+  findAll(@Query('title') title?: string) {
+    if (title)
       return this.taskService.findByTitle(title);
-  
-      return this.taskService.findAll();
-    }
+
+    return this.taskService.findAll();
+  }
 
   @Get(':id')
   findOne(@Param('id') id: number) {

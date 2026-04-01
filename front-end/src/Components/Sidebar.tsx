@@ -3,8 +3,21 @@ import "../Styles/SideBar.css";
 import logo from "../assets/logo_usertasker.png";
 import { FiUsers } from "react-icons/fi";
 import { LuClipboardCheck } from "react-icons/lu";
+import { useNavigate } from "react-router-dom";
+import { IoMdExit } from "react-icons/io";
+
 
 function SideBar() {
+
+
+
+    const navigate = useNavigate();
+
+    function logout() {
+        localStorage.removeItem("token");
+        navigate("/");
+    }
+
 
     return (
 
@@ -17,13 +30,23 @@ function SideBar() {
                         <h2 className="nomeSistema">UserTasker</h2>
                     </div>
                 </Link>
+
                 <div className="areaBotoes">
-                    <div className="navButton">
-                        <Link className="link" to="users"> <FiUsers />Usuarios</Link> 
-                    </div>
-                    <div className="navButton">
-                         <Link className="link"to="task"><LuClipboardCheck />Tarefas</Link> 
-                    </div>
+                    <Link className="link" to="users">
+                        <div className="navButton">
+                            <FiUsers />Usuarios
+                        </div>
+                    </Link>
+                    <Link className="link" to="task">
+                        <div className="navButton">
+                            <LuClipboardCheck />Tarefas
+                        </div>
+                    </Link>
+
+
+                </div>
+                <div className="navButton  sair">
+                    <button className="link"onClick={logout}><IoMdExit /> Sair</button>
                 </div>
             </div>
 

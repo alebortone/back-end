@@ -1,12 +1,16 @@
+import '../Styles/User.css'
+import '../Styles/Entities.css'
+
 import { useEffect, useState} from 'react';
 import api from '../service/BaseService'
-import '../Styles/User.css'
+
 import Modal from '../Components/Modal';
 import Swal from 'sweetalert2';
 import { RiEdit2Line } from "react-icons/ri";
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
+import SearchForm from '../Components/SearchForm';
 
 type User = {
     id: string;
@@ -123,22 +127,23 @@ function Users() {
 
     }
 
+    function limparBusca(){
+        setNameBusca("")
+        getUsers()
+    }
+
 
     return (
-        <div className='containerUser'>
+        <div className='containerEntities'>
 
-            <div className='areaAdd'>
-
-
-                <div>
-                    <form action="" onSubmit={(e) => { e.preventDefault(); buscarName() }}>
-                        <input className="inputBuscar" type="search" placeholder='Buscar...' value={nameBusca} onChange={(e) => setNameBusca(e.target.value)} />
-                        <button onClick={() => { setNameBusca(""); getUsers() }} type="button" className='buttonLimpar'>Limpar</button>
-                        <button className='buttonBuscar'>Buscar</button>
-                    </form>
-                </div>
-                <button className="buttonAdd" onClick={() => setOpen(!open)}> Adicionar Usuario </button>
-            </div>
+            <SearchForm 
+                value={nameBusca}
+                onChange={setNameBusca}
+                onSubmit={buscarName}
+                onClear={limparBusca}
+                onOpen={setOpen}
+                textButton="Adicionar Usuario"
+                />
 
             {open && (
                 <Modal>
@@ -174,12 +179,12 @@ function Users() {
 
 
             <div className='lista'>
-                <h1>Lista de Usuários</h1>
+                
                 <div className='cabecalhoArea gridUser'>
-                    <h3>Usuario</h3>
-                    <h3>Email</h3>
-                    <h3>Perfil</h3>
-                    <h3>Ações</h3>
+                    <h3 className="cabecalhoColuna">Usuario</h3>
+                    <h3 className="cabecalhoColuna">Email</h3>
+                    <h3 className="cabecalhoColuna">Perfil</h3>
+                    <h3 className="cabecalhoColuna">Ações</h3>
                 </div>
                 <div>
                     {user.map((users) => (

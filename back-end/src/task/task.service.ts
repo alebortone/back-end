@@ -8,7 +8,7 @@ import { User } from 'src/users/entities/user.entity';
 import { JwtAuthGuard } from 'src/auth/passport_jwt/jwt-auth.guard';
 
 
-@UseGuards(JwtAuthGuard)
+
 @Injectable()
 export class TaskService {
   constructor(
@@ -55,7 +55,7 @@ export class TaskService {
     if (!task) {
       throw new NotFoundException(`Tarefa com ID ${id} nao encontrada `);
     } else {
-      await this.tasksRepository.update(id, updateTaskDto);
+      await this.tasksRepository.update(id, updateTaskDto); //
       return this.findOne(id);
     }
   }

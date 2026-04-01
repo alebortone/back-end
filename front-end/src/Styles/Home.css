@@ -1,0 +1,95 @@
+.areaCards{
+    
+    display: flex;
+    flex-flow: column nowrap;
+    width: 98%;
+   color: rgb(0, 0, 0);
+
+}
+
+.cardsGeral{
+
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+
+}
+
+.card{
+
+    border: 2px solid #1A4A73;
+    border-radius: 10px;
+    width: 325px;
+    height: 175px;
+    background-color: #ffffff7e;
+    box-shadow: 0 0px 5px 0 rgb(10, 10, 10);
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.icon{
+
+    font-size: 100px;
+    position: absolute;
+    color:  #1a49736b;
+    margin-left: 200px;
+    margin-top: 20px;
+}
+.areaPessoal{
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.cardTarefasUser{
+
+    min-width: 1100px;
+    display: flex;
+    flex-direction: row;
+
+}
+.card:hover{
+
+    box-shadow: -5px 5px 10px 0 rgb(10, 10, 10);
+    transition: 0.2s;
+}
+
+
+.nomeLinha{
+    margin: 5px;
+}
+
+.iconPessoal{
+
+    font-size: 100px;
+    position: absolute;
+    color:  #1a49736b;
+    margin-left: 975px;
+    margin-top: 20px;
+    
+    
+
+}
+
+.tarefasAtuais{
+
+    flex: 2;
+    border-right: 2px solid #1a49736b ;
+}
+
+.tarefasAdjacentes{
+    flex:1;
+    padding-top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.taskUser{
+    display: flex;
+    gap:1rem;
+    height: 20px;
+    margin-bottom: 5px;
+}

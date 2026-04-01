@@ -1,11 +1,14 @@
+import "../Styles/Task.css"
+import '../Styles/Entities.css'
+
 import { useEffect, useState } from "react";
 import api from "../service/BaseService";
 import Modal from "../Components/Modal";
-import "../Styles/Task.css"
 import { RiEdit2Line } from "react-icons/ri";
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import UserEmail from "../service/EmailLogado";
 import Swal from 'sweetalert2';
+import SearchForm from "../Components/SearchForm";
 
 type Task = {
     id: number;
@@ -56,6 +59,7 @@ function Task() {
         })
         setId(e.id)
         setisEditing(true);
+        setOpen(true)
     }
 
     async function createTask(e: React.FormEvent<HTMLFormElement>) {
@@ -110,7 +114,7 @@ function Task() {
         setisEditing(false)
     }
 
-     async function buscarTitle() {
+    async function buscarTitle() {
 
         try {
             const response = await api.get(`/task?title=${titleBusca}`);
@@ -118,33 +122,35 @@ function Task() {
         } catch (error) {
             console.log("Erro ao buscar:", error);
         }
-        
+
+    }
+
+    function limparBusca(){
+        setTitleBusca("")
+        getTasks()
     }
 
 
     return (
-        <div className='containerUser'>
-
-            <div className='areaAdd'>
-
-                 <div>
-                    <form action="" onSubmit={(e)=>{ e.preventDefault(); buscarTitle()}}>
-                        <input className="inputBuscar" type="search" placeholder='Buscar...' value={titleBusca} onChange={(e) => setTitleBusca(e.target.value)} />
-                        <button onClick={()=> {setTitleBusca(""); getTasks()}} type="button"className='buttonLimpar'>Limpar</button>
-                        <button className='buttonBuscar'>Buscar</button>
-                    </form>
-                </div>
-                <button className="buttonAdd" onClick={() => setOpen(!open)}> Adicionar tarefa </button>
-            </div>
+        <div className='containerEntities'>
+            
+                <SearchForm 
+                value={titleBusca}
+                onChange={setTitleBusca}
+                onSubmit={buscarTitle}
+                onClear={limparBusca}
+                onOpen={setOpen}
+                textButton="Adicionar Tarefa"
+                />
+                
 
             <div className='lista'>
-                <h1>Lista de tarefas</h1>
                 <div className='cabecalhoArea gridTask'>
-                    <h3>Titulo</h3>
-                    <h3>Descrição</h3>
-                    <h3>Usuario</h3>
-                    <h3>Progresso</h3>
-                    <h3>Ações</h3>
+                    <h3 className="cabecalhoColuna">Titulo</h3>
+                    <h3 className="cabecalhoColuna" >Descrição</h3>
+                    <h3 className="cabecalhoColuna" >Usuario</h3>
+                    <h3 className="cabecalhoColuna" >Progresso</h3>
+                    <h3 className="cabecalhoColuna">Ações</h3>
                 </div>
                 <div>
                     {tasks.map((task) => (
@@ -172,46 +178,11 @@ function Task() {
 
             {open && (
                 <Modal>
-                    <h2>Criar Tarefa</h2>
-                    <UserEmail />
+                    <h2>{isEditing? "Editar tarefa" : "Criar Tarefa"} </h2>
+                    <p>Usuario: <UserEmail /></p>
 
                     <form className="formTask" onSubmit={createTask}>
                         <div className="areaInputTask">
-                            <label className="areaInputTask" htmlFor=""> Insira um titulo:
-                                <input className="inputCriarTask" type="text" required placeholder='Titulo' value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} />
-                            </label>
-
-                            <label className="areaInputTask" htmlFor=""> Insira um descrição:
-                                <input className="inputCriarTask" type="text" required placeholder='Descricao' value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} />
-                            </label>
-
-                            <label className="areaInputTask" htmlFor=""> Qual a prioridade?
-                                <select className="inputCriarUser" id="itens" value={opcao} onChange={(e) => setOpcao(e.target.value)}>
-                                    <option value="" disabled>Selecione...</option>
-                                    <option value="MINIMA">Minima</option>
-                                    <option value="MEDIA">Media</option>
-                                    <option value="MAXIMA">Maxima</option>
-                                </select>
-                            </label>
-                        </div>
-
-
-                        <div className="areaBotoesCriarTask">
-                            <button className="buttonCancelar" type="button" onClick={resetModal}>Cancelar</button>
-                            <button className="buttonCriar" type="submit" > Salvar</button>
-                        </div>
-                    </form>
-
-
-                </Modal>
-            )}
-            {isEditing && (
-                <Modal>
-                    <h2>Atulizar tarefa</h2>
-
-                    <form className="formTask" onSubmit={createTask}>
-                        <div className="areaInputTask">
-                            <UserEmail />
                             <label className="labelTask" htmlFor=""> Insira um titulo:
                                 <input className="inputCriarTask" type="text" required placeholder='Titulo' value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} />
                             </label>
@@ -228,10 +199,11 @@ function Task() {
                                     <option value="MAXIMA">Maxima</option>
                                 </select>
                             </label>
-
-                            <label className="labelTask" htmlFor=""> Concluir tarefa?
-                                <input className="inputCheck" type="checkbox" checked={form.completed} onChange={(e) => setForm({ ...form, completed: e.target.checked })} />
-                            </label>
+                            {isEditing && (
+                                <label className="labelTask" htmlFor=""> Concluir tarefa?
+                                    <input className="inputCheck" type="checkbox" checked={form.completed} onChange={(e) => setForm({ ...form, completed: e.target.checked })} />
+                                </label>
+                            )}
                         </div>
 
 
@@ -239,11 +211,11 @@ function Task() {
                             <button className="buttonCancelar" type="button" onClick={resetModal}>Cancelar</button>
                             <button className="buttonCriar" type="submit" > Salvar</button>
                         </div>
+
                     </form>
 
 
                 </Modal>
-
             )}
 
         </div>

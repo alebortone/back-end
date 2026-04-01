@@ -13,7 +13,7 @@ body{
     
     padding: 0;
     background-image: url("C:\Trabalho\Atv_inicio_mgCode\front-end\src\assets\imagem_fundo_login_2.png");
-    object-fit: contain;
+    object-fit: cover;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: rgb(255, 255, 255);
     

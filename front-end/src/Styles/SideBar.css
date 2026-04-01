@@ -1,10 +1,13 @@
-.sideBar{    
+.sideBar {
     width: 300px;
-    background-color: #1A4A73;
+    background-color: #01294d;
     color: white;
-   
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+
 }
-.containerSideBar{
+
+.containerSideBar {
 
     width: 100%;
     height: 100%;
@@ -13,34 +16,37 @@
     align-items: center;
 
 }
-.areaLogo{
+
+.areaLogo {
     display: flex;
     width: 300px;
-    height: 200px;
-   align-items: center;
-   padding-left: 20px; 
+    height: 100px;
+    align-items: center;
+    padding-left: 20px;
+    transition: 0.5s;
 }
 
-.imgLogoSideBar{
+.imgLogoSideBar {
 
     width: 100px;
     height: 150px;
     object-fit: cover;
 }
 
-.areaBotoes{
+.areaBotoes {
+    border-top: 2px solid #223c52;
     display: flex;
     width: 240px;
-    height: 70%;
+    height: 65%;
     flex-direction: column;
     padding: 20px;
-    background-color: #1a4870;
-    border: 3px solid#0e3252;
-    border-radius: 20px;
-    box-shadow: 0 0 4px 0 black;
+    background-color: #01294d;
+
+
     gap: 5px
 }
-.navButton{
+
+.navButton {
 
     width: 220px;
     height: 50px;
@@ -48,28 +54,53 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 20px;
 
 }
 
-.link{
+.link {
     text-decoration: none;
     color: rgb(255, 255, 255);
     font-size: 20px;
     display: flex;
-    gap: 10px;
-    
+
+
 }
 
 .navButton:hover,
-.areaLogo:hover{
+.areaLogo:hover {
     background-color: #30699a;
     box-shadow: 0 0 8px 0 black;
     transition: 0.5s;
-    
+
 }
 
-.areaLogo:hover{
+.areaLogo:hover {
     width: 260px;
+    height: 110px;
     border-radius: 20px;
-    transition: 0.3s;
+    transition: 0.5s;
+}
+
+.sair:hover {
+
+    background-color: #931919fe;
+}
+
+.sair {
+    margin-top: 100px;
+}
+
+.sair button {
+
+    background: none;
+    border: 0;
+}
+
+@media (max-height: 730px) {
+
+    .sair {
+        margin-top: 20px;
+    }
+
 }
