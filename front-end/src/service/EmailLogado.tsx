@@ -19,9 +19,8 @@ function UserEmail() {
         
         const decodedToken = jwtDecode<JwtPayload>(token);
         
-        
-        setUserEmail(decodedToken.email); // Veja a estrutura no console
-       
+        setUserEmail(decodedToken.email); 
+
       } catch (error) {
         console.error("Token inválido", error);
       }

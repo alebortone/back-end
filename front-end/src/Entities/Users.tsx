@@ -6,11 +6,10 @@ import api from '../service/BaseService'
 
 import Modal from '../Components/Modal';
 import Swal from 'sweetalert2';
-import { RiEdit2Line } from "react-icons/ri";
-import { MdOutlineDeleteOutline } from "react-icons/md";
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
 import SearchForm from '../Components/SearchForm';
+import { BotoesDelEdit } from '../Components/BotoesDelEdit';
 
 type User = {
     id: string;
@@ -193,10 +192,10 @@ function Users() {
                             <p>{users.name}</p>
                             <p>{users.email}</p>
                             <p>{users.isActive ? 'Ativo' : 'Inativo'}</p>
-                            <div className='acoes'>
-                                <button className="buttonAcoes" onClick={() => handlleEditar(users)}><RiEdit2Line className='editar' /></button>
-                                <button className="buttonAcoes" onClick={() => deleteUser(users.id)}><MdOutlineDeleteOutline className='lixeira' /></button>
-                            </div>
+                            
+                            <BotoesDelEdit onEditing={() => handlleEditar(users)} onDelete={()=>deleteUser(users.id)}/>
+                                
+                            
                         </div>
 
                     ))}

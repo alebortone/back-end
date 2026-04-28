@@ -22,7 +22,7 @@ export class Task {
     })
     user: User
 
-    @CreateDateColumn()
+    @CreateDateColumn( )
     createdAt: Date
 
     @DeleteDateColumn({select: false, name: "deleted_at"}) 

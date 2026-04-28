@@ -40,7 +40,8 @@ export class TaskService {
     return await this.tasksRepository.find({
       where: {
         title: ILike(`%${title}%`)
-      }
+      },
+      relations: ['user'],
     });
 
   }

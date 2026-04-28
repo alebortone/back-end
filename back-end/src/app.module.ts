@@ -20,7 +20,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
       autoLoadEntities: true,
-      synchronize: true
+      synchronize: false
 
     }),
     UsersModule,

@@ -9,6 +9,7 @@ import { MdOutlineDeleteOutline } from "react-icons/md";
 import UserEmail from "../service/EmailLogado";
 import Swal from 'sweetalert2';
 import SearchForm from "../Components/SearchForm";
+import { BotoesDelEdit } from "../Components/BotoesDelEdit";
 
 type Task = {
     id: number;
@@ -39,11 +40,12 @@ function Task() {
     const [form, setForm] = useState(initialForm);
     const [isEditing, setisEditing] = useState(false);
     const [id, setId] = useState<number | null>(null);
-    const [titleBusca, setTitleBusca] = useState("")
+    const [titleBusca, setTitleBusca] = useState("");
 
-
-    function getTasks() {
-        api.get("/task").then((response) => setTasks(response.data)).catch((error) => console.log("Ocorreu um erro: ", error));
+    async function getTasks() {
+        api.get("/task").then((response) => setTasks(response.data))
+            .catch((error) => console.log("Ocorreu um erro: ", error))
+            
     }
 
     useEffect(() => {
@@ -125,25 +127,25 @@ function Task() {
 
     }
 
-    function limparBusca(){
+    function limparBusca() {
         setTitleBusca("")
         getTasks()
     }
 
 
     return (
-        <div className='containerEntities'>
-            
-                <SearchForm 
-                value={titleBusca}
-                onChange={setTitleBusca}
-                onSubmit={buscarTitle}
-                onClear={limparBusca}
-                onOpen={setOpen}
-                textButton="Adicionar Tarefa"
-                />
-                
 
+
+        <div className='containerEntities'>
+
+                <SearchForm
+                    value={titleBusca}
+                    onChange={setTitleBusca}
+                    onSubmit={buscarTitle}
+                    onClear={limparBusca}
+                    onOpen={setOpen}
+                    textButton="Adicionar Tarefa"
+                />
             <div className='lista'>
                 <div className='cabecalhoArea gridTask'>
                     <h3 className="cabecalhoColuna">Titulo</h3>
@@ -154,7 +156,6 @@ function Task() {
                 </div>
                 <div>
                     {tasks.map((task) => (
-
                         <div className='taskArea gridTask' key={task.id}>
                             <p>{task.title}</p>
                             <p>{task.description}</p>
@@ -164,33 +165,25 @@ function Task() {
                             </div>
                             <p>{task.completed ? "Completada" : "Incompleta"}</p>
 
-                            <div className='acoes'>
-                                <button className="buttonAcoes" onClick={() => hanndleEditar(task)}><RiEdit2Line className='editar' /></button>
-                                <button className="buttonAcoes" onClick={() => deleteTask(task.id)}><MdOutlineDeleteOutline className='lixeira' /></button>
-                            </div>
-                        </div>
+                            <BotoesDelEdit onEditing={() => hanndleEditar(task)} onDelete={() => deleteTask(task.id)} />
 
+                        </div>
                     ))}
                 </div>
             </div>
-
-
-
+            
             {open && (
                 <Modal>
-                    <h2>{isEditing? "Editar tarefa" : "Criar Tarefa"} </h2>
+                    <h2>{isEditing ? "Editar tarefa" : "Criar Tarefa"} </h2>
                     <p>Usuario: <UserEmail /></p>
-
                     <form className="formTask" onSubmit={createTask}>
                         <div className="areaInputTask">
                             <label className="labelTask" htmlFor=""> Insira um titulo:
                                 <input className="inputCriarTask" type="text" required placeholder='Titulo' value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} />
                             </label>
-
                             <label className="labelTask" htmlFor=""> Insira um descrição:
                                 <input className="inputCriarTask" type="text" required placeholder='Descricao' value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} />
                             </label>
-
                             <label className="labelTask" htmlFor=""> Qual a prioridade?
                                 <select className="inputCriarUser" id="itens" value={opcao} onChange={(e) => setOpcao(e.target.value)}>
                                     <option value="" disabled>Selecione...</option>
@@ -205,16 +198,11 @@ function Task() {
                                 </label>
                             )}
                         </div>
-
-
                         <div className="areaBotoesCriarTask">
                             <button className="buttonCancelar" type="button" onClick={resetModal}>Cancelar</button>
                             <button className="buttonCriar" type="submit" > Salvar</button>
                         </div>
-
                     </form>
-
-
                 </Modal>
             )}
 

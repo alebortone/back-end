@@ -49,7 +49,7 @@ export class UsersService {
       name: ILike(`%${name}%`)
     }
   });
-  
+
   }
   async findAll() {
     return await this.userRepository.find();

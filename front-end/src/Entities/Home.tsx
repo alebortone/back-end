@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 import api from "../service/BaseService";
 
 
-
 type DashboardData = {
     totalUsers: number;
     totalTasks: number;
@@ -26,8 +25,6 @@ type Task = {
     completed: boolean;
     createdAt: Date;
 }
-
-
 
 
 function Home() {
@@ -65,7 +62,7 @@ function Home() {
                         <h3>Usuarios:</h3>
 
                         <p className="nomeLinha">Total de usuarios: {data?.totalUsers}</p>
-                        <p className="nomeLinha" >Usarios criados hoje: </p>
+                
                         <FiUsers className="icon" />
                     </div>
 
@@ -74,7 +71,7 @@ function Home() {
 
                         <p className="nomeLinha">Total de tarefas: {data?.totalTasks}</p>
                         <p className="nomeLinha" >Tarefas pendentes: {data?.pendentsTasks}</p>
-                        <p className="nomeLinha" >Tarefas criadas hoje: </p>
+                    
                         <VscTasklist className="icon" />
                     </div>
                     <div className="cardTarefasConcluidas card">
@@ -82,6 +79,7 @@ function Home() {
 
                         <p className="nomeLinha">Total concluidas: {data?.completedTasks}</p>
                         <p className="nomeLinha" >Taxa de conclusão: {percent}%</p>
+
                         <LuClipboardCheck className="icon" />
                     </div>
                 </div>
